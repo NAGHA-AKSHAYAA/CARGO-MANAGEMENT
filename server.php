@@ -386,6 +386,8 @@ if (isset($_POST['check_price']))
     echo($hour);
     echo "<br>";
     echo($amount);
+    $_SESSION['hour'] = $hour;
+    $_SESSION['price'] = $price;
     $_SESSION['price_of_order'] = $amount;
     header('location:transaction.php');
     // 32 FEET MULTI AXEL TRUCK (16 TON CAPACITY) [CONTAINER TRUCK]
@@ -423,6 +425,14 @@ if (isset($_POST['completedTransaction'])){
     echo $query;
     mysqli_query($db, $query);
     header("Location:billing.php");
+}
+
+if(isset($_POST['goTohome'])){
+    header("Location:welcome.php");
+}
+
+if(isset($_POST['printInvoice'])){
+    header('location:invoice.php');
 }
 
 ?>

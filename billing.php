@@ -30,8 +30,14 @@
 <p>   Truck number : <span><?php echo $trucknumber?></span></p>
 <p>     Truck type : <span><?php echo $truck_type?></span></p>
 <p>   Total Amount : <span><?php echo $totalamount?></span></p>
-<div>
 </div>
+<div class="button_group">
+    <form method="post" action="billing.php">
+    <button name="goTohome" style="margin-right:10px" class="btn btn-success">Go to home</button>
+   <button name="printInvoice" class="btn btn-success">Print Invoice</button>
+
+    </form>
+  
 </div>
 </div>
 </body>

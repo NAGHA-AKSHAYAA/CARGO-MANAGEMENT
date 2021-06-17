@@ -19,3 +19,9 @@
     padding-left: 30px;
     margin-bottom: 40px;   
 }
+
+.button_group{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
