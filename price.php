@@ -6,6 +6,12 @@
     <title>FARE CHARGES</title>
   </head>
   <body>
+  <?php $pt = $_SESSION['pickuptime'] ?>
+  <?php $dt = $_SESSION['droptime'] ?>
+<?php 
+echo($pt);
+echo($dt);
+?>
       <button method="post" type="submit" class="btn" name="confirm_booking">MAKE PAYMENT</button>
   </body>
 </html>

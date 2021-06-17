@@ -1,3 +1,4 @@
+<?php include ('server.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
     <title>Document</title>
 </head>
 <body>
+<?php $amount = $_SESSION['price_of_order'];?>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <div class="container d-flex justify-content-center mt-5 mb-5">
@@ -27,7 +29,7 @@
                                 </button> </h2>
                         </div>
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <form>
+                        <form method="post" action="transaction.php">
                             <div class="card-body payment-card-body"> <span class="font-weight-normal card-text">Card Number</span>
                                 <div class="input"> <i class="fa fa-credit-card"></i> <input type="text" id="cr_no" class="form-control" required placeholder="0000 0000 0000 0000" minlength="19" maxlength="19"></div>
                                 <div class="row mt-3 mb-3">
@@ -38,7 +40,7 @@
                                         <div class="input"> <i class="fa fa-lock"></i> <input type="password" class="form-control" required placeholder="000" minlength="3" maxlength="3"> </div>
                                     </div>
                                 </div>
-                                <button type="submit" style="width: 100%;" class="btn btn-primary btn-block">Complete Transaction</button>
+                                <button type="submit" style="width: 100%;" name="completedTransaction" class="btn btn-primary btn-block">Complete Transaction</button>
                             </form>
                             </div>
                         </div>
@@ -47,22 +49,23 @@
             </div>
         </div>
         <div class="col-md-6"> <span>Order Summary</span>
+      
             <div class="card">
                 <div class="d-flex justify-content-between p-3">
                     <div class="d-flex flex-column"> <span>Order Details</span></div>
-                    <div class="mt-1"> <sup class="super-price">$50.2</div>
+                    <div class="mt-1"> <sup class="super-price">Rs <?php echo round($amount,2); ?></div>
                 </div>
                 <hr class="mt-0 line">
                 <div class="p-3">
-                    <div class="d-flex justify-content-between mb-2"> <span>Discount</span> <span>-$2.00</span> </div>
-                    <div class="d-flex justify-content-between"> <span>Gst <i class="fa fa-clock-o"></i></span> <span>8%</span> </div>
-
+                    <div class="d-flex justify-content-between mb-2"> <span>Discount</span> <span>-Rs0.00</span> </div>
                 </div>
                 <hr class="mt-0 line">
                 <div class="p-3 d-flex justify-content-between">
-                    <div class="d-flex flex-column"> <span>Total amount </span> <small></small> </div> <span>$52.12</span>
+                    <div class="d-flex flex-column"> <span>Total amount </span> <small></small> </div> <span>Rs <?php echo round($amount,2)?></span>
                 </div>
             </div>
+    
+
         </div>
     </div>
 </div>
@@ -84,7 +87,7 @@ for (var i = 0, len = sanitizedValue.length; i < len; i +=4) { parts.push(saniti
         }
         caretPosition += Math.floor(caretPosition / 4);
 
-        this.value = this.lastValue = parts.join('-');
+        this.value = this.lastValue = parts.join(' ');
         this.selectionStart = this.selectionEnd = caretPosition;
         }
 
