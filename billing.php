@@ -17,25 +17,29 @@
     $trucknumber = $_SESSION['vehicle_id'];
     $truck_type = $_SESSION['choosen_truck'];
     $totalamount = $_SESSION['price_of_order'];
+    $driver_name = $_SESSION['driver_name'];
+    $driver_number = $_SESSION['driver_number'];
+
     ?>
 <div>
 <div class="main_container">
 <h1>Your transaction has been completed<h1>
-<div class="order_details">
+<div style="height:550px" class="order_details">
 <h2 style="font-size:22px;padding:10px 0 0 10px">Order Details : </h2>
 <div class="description">
-<p>Pick up address : <span><?php echo $pickupaddress?></span></p>
+<p style="">Pick up address : <span><?php echo $pickupaddress?></span></p>
 <p>   Pick up time : <span><?php echo $pick_up_time?></span></p>
 <p>      Drop time : <span><?php echo $drop_time?></span></p>
 <p>   Truck number : <span><?php echo $trucknumber?></span></p>
 <p>     Truck type : <span><?php echo $truck_type?></span></p>
+<p>     Driver name : <span><?php echo $driver_name?></span></p>
+<p>    Driver number : <span><?php echo $driver_number?></span></p>
 <p>   Total Amount : <span><?php echo $totalamount?></span></p>
 </div>
-<div class="button_group">
+<div  class="button_group">
     <form method="post" action="billing.php">
-    <button name="goTohome" style="margin-right:10px" class="btn btn-success">Go to home</button>
-   <button name="printInvoice" class="btn btn-success">Print Invoice</button>
-
+    <button style="margin-bottom:30px;" name="goTohome" style="margin-right:10px" class="btn btn-success">Go to home</button>
+   <button style="margin-bottom:30px;" name="printInvoice" class="btn btn-success">Print Invoice</button>
     </form>
   
 </div>

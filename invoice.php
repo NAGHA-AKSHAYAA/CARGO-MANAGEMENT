@@ -18,7 +18,10 @@
 
 <body>
      <div style="width:100%;display:flex;justify-content:center;align-items:center;margin-top:20px;">
+     <form method="post" action="">
+     <button style="margin-right:20px" name="goback" class="btn btn-primary main">Go back</button>
      <button onclick = "window.print()" class="btn btn-primary main">Print Invoice</button>
+     </form>
      </div>
     <?php 
     $pick_up_date = $_SESSION['pick_up_date'];
@@ -32,6 +35,9 @@
     $price = $_SESSION['price'];
     $hour = $_SESSION['hour'];
     $amount = $_SESSION['price_of_order'];
+    $drop_address = $_SESSION['drop_address'];
+    $driver_name  = $_SESSION['driver_name'];
+    $driver_number = $_SESSION['driver_number'];
     ?>
     <div class="my-5 page" size="A4">
         <div class="p-5">
@@ -50,26 +56,29 @@
             </section>
 
             <section class="store-user mt-5">
-                <div class="col-10">
+                <div class="col-12">
                     <div class="row bb pb-3">
                         <div class="col-7">
                             <p>Pick up address : </p>
                             <p class="address"><?php echo $pickupaddress ?></p>
     
                         </div>
-                        <!-- <div class="col-5">
+                        <div class="col-5">
                             <p>Drop location :</p>
-                            <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                        </div> -->
+                            <p class="address"><?php echo $drop_address?></p>
+                        </div>
                     </div>
                     <div class="row extra-info pt-3">
-                        <div class="col-7">
-                            <p>Payment Method: <span>Credit Card</span></p>
-                            <!-- <p>Order Number: <span>#868</span></p> -->
-                        </div>
                         <div class="col-5">
+                           
                             <p>Pickup Date: <span><?php echo $pick_up_date ?></span></p>
                             <p style="margin-left:13px;" >Drop Date:   <span><?php echo $drop_date ?></span></p>
+                            <!-- <p>Order Number: <span>#868</span></p> -->
+                        </div>
+                        <div class="col-7">
+                        <p style="margin-left:120px">Payment Method: <span>Credit Card</span></p>
+                        <p style="margin-left:120px">Driver name : <span><?php echo $driver_name ?></span></p>
+                        <p style="margin-left:120px">Driver number:  <span><?php echo $driver_number ?></span></p>
                         </div>
                     </div>
                 </div>
@@ -90,7 +99,7 @@
                             <td>
                                 <div class="media">
                                     <div class="media-body">
-                                        <p class="mt-0 title">Truck</p>
+                                        <p class="mt-0 title">Truck No : <?php echo $trucknumber ?></p>
                                         <?php echo $truck_type?>
                                     </div>
                                 </div>

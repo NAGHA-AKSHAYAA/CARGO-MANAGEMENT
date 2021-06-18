@@ -314,7 +314,9 @@ if (isset($_POST['check_price']))
     $drop_time = mysqli_real_escape_string($db, $_POST['drop_time']);
     $_SESSION['drop_time'] = $drop_time;
     $address = mysqli_real_escape_string($db, $_POST['location_address']);
+    $drop_address = mysqli_real_escape_string($db, $_POST['drop_address']);
     $_SESSION['address'] = $address;
+    $_SESSION['drop_address'] = $drop_address;
     if (empty($slots))
     {
         array_push($errors, "choose an available truck");
@@ -414,14 +416,36 @@ if (isset($_POST['completedTransaction'])){
     $picloc = $_SESSION['pick_up_loc'];
     $droploc = $_SESSION['drop_loc'];
     $vehicle_id = $_SESSION['vehicle_id'];
+    $q = mysqli_query($db,"SELECT driver_id from trucks where veh_reg='$vehicle_id'");
+    $driverid = mysqli_fetch_assoc($q);
+    $driver_id =  $driverid['driver_id'];
+    
+
+// get the driver details
+
+  $driverq = mysqli_query($db,"SELECT name,phone_number FROM driver where driver_id='$driver_id'");
+ 
+  $details = mysqli_fetch_assoc($driverq);
+
+  $driver_name  = $details['name'];
+  $driver_number = $details['phone_number'];
+// echo($driver_name);
+// echo($driver_number);
+    $_SESSION['driver_id'] = $driverid;
+    $_SESSION['driver_name'] = $driver_name;
+    $_SESSION['driver_number'] = $driver_number;
+
+// end of driver Details
+
     $pick_up_time = $_SESSION['pick_up_time'];
     $drop_time = $_SESSION['drop_time'];
     $address = $_SESSION['address'];
+    $drop_address = $_SESSION['drop_address'];
 
     // Finally, inserting all the details inside in the database after confirmation
   
 
-    $query = "INSERT INTO booking(user_id,booking_id,start_date,end_date,pick_up_time,drop_time,pick_up_location,drop_location,goods_type,truck,truck_id,pick_up_point,status,amount)VALUES('$uid',$booking_id,'$pdate','$ddate','$pick_up_time','$drop_time','$picloc','$droploc','$gtype','$ctruck','$vehicle_id','$address','not completed','$final_amount')";
+    $query = "INSERT INTO booking(user_id,booking_id,start_date,end_date,pick_up_time,driver_id,drop_time,pick_up_location,drop_location,goods_type,truck,truck_id,pick_up_point,drop_point,status,amount)VALUES('$uid',$booking_id,'$pdate','$ddate','$pick_up_time','$driver_id','$drop_time','$picloc','$droploc','$gtype','$ctruck','$vehicle_id','$address','$drop_address','not completed','$final_amount')";
     echo $query;
     mysqli_query($db, $query);
     header("Location:billing.php");
@@ -433,6 +457,10 @@ if(isset($_POST['goTohome'])){
 
 if(isset($_POST['printInvoice'])){
     header('location:invoice.php');
+}
+
+if(isset($_POST['goback'])){
+    header('location:billing.php');
 }
 
 ?>
