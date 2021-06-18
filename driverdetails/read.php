@@ -1,6 +1,6 @@
 <?php include "db.php";
 
-$sql = "SELECT * FROM trucks ORDER BY veh_reg DESC";
+$sql = "SELECT * FROM driver ORDER BY driver_id";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
@@ -22,9 +22,11 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped">
 			  <thead>
 			    <tr>
-			      <th scope="col">Registration No</th>
-			      <th scope="col">Vehicle Type</th>
-			      <th scope="col">Driver Id</th>
+			      <th scope="col">Driver No</th>
+			      <th scope="col">Driver Name</th>
+			      <th scope="col">Driver licence</th>
+						<th scope="col">Licence Expiry Date</th>
+						<th scope="col">Phone Number</th>
 			      <th scope="col">Action</th>
 			    </tr>
 			  </thead>
@@ -35,13 +37,15 @@ $result = mysqli_query($conn, $sql);
 			  	   $i++;
 			  	 ?>
 			    <tr>
-			      <th scope="row"><?=$rows['veh_reg']?></th>
-			      <td><?=$rows['veh_type']?></td>
-			      <td><?php echo $rows['driver_id']; ?></td>
-			      <td><a href="update.php?veh_reg=<?=$rows['veh_reg']?>"
+			      <th scope="row"><?=$rows['driver_id']?></th>
+			      <td><?=$rows['name']?></td>
+			      <td><?php echo $rows['licence_no']; ?></td>
+						<td><?php echo $rows['expiry_date']; ?></td>
+						<td><?php echo $rows['phone_number']; ?></td>
+			      <td><a href="update.php?driver_id=<?=$rows['driver_id']?>"
 			      	     class="btn btn-success">Update</a>
 
-			      	  <a href="delete.php?veh_reg=<?=$rows['veh_reg']?>"
+			      	  <a href="delete.php?driver_id=<?=$rows['driver_id']?>"
 			      	     class="btn btn-danger">Delete</a>
 			      </td>
 			    </tr>
@@ -53,7 +57,6 @@ $result = mysqli_query($conn, $sql);
 				<a href="index.php" class="link-primary">Create</a>
 				<br>
 				<a style="text-decoration:none" href="/project/adminview.php">Admin menu</a>
-
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 <?php include "db.php";
 
-$sql = "SELECT * FROM trucks ORDER BY veh_reg DESC";
+$sql = "SELECT * FROM user ORDER BY user_id";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
@@ -22,9 +22,11 @@ $result = mysqli_query($conn, $sql);
 			<table class="table table-striped">
 			  <thead>
 			    <tr>
-			      <th scope="col">Registration No</th>
-			      <th scope="col">Vehicle Type</th>
-			      <th scope="col">Driver Id</th>
+			      <th scope="col">User ID</th>
+			      <th scope="col">First Name</th>
+			      <th scope="col">Last Name</th>
+						<th scope="col">Email_ID</th>
+						<th scope="col">Phone Number</th>
 			      <th scope="col">Action</th>
 			    </tr>
 			  </thead>
@@ -35,13 +37,15 @@ $result = mysqli_query($conn, $sql);
 			  	   $i++;
 			  	 ?>
 			    <tr>
-			      <th scope="row"><?=$rows['veh_reg']?></th>
-			      <td><?=$rows['veh_type']?></td>
-			      <td><?php echo $rows['driver_id']; ?></td>
-			      <td><a href="update.php?veh_reg=<?=$rows['veh_reg']?>"
+			      <th scope="row"><?=$rows['user_id']?></th>
+			      <td><?=$rows['first_name']?></td>
+			      <td><?php echo $rows['last_name']; ?></td>
+						<td><?php echo $rows['email']; ?></td>
+						<td><?php echo $rows['phone_number']; ?></td>
+			      <td><a href="update.php?user_id=<?=$rows['user_id']?>"
 			      	     class="btn btn-success">Update</a>
 
-			      	  <a href="delete.php?veh_reg=<?=$rows['veh_reg']?>"
+			      	  <a href="delete.php?user_id=<?=$rows['user_id']?>"
 			      	     class="btn btn-danger">Delete</a>
 			      </td>
 			    </tr>
@@ -50,8 +54,6 @@ $result = mysqli_query($conn, $sql);
 			</table>
 			<?php } ?>
 			<div class="link-right">
-				<a href="index.php" class="link-primary">Create</a>
-				<br>
 				<a style="text-decoration:none" href="/project/adminview.php">Admin menu</a>
 
 			</div>

@@ -27,8 +27,12 @@
       <input type='time' name="drop_time">
     </div>
     <div class="input-group">
-      <label>Enter the location address :</label>
+      <label>Enter the pickup address :</label>
       <textarea name="location_address" rows="10" cols="45"></textarea>
+    </div>
+    <div class="input-group">
+      <label>Enter the drop address :</label>
+      <textarea name="drop_address" rows="10" cols="45"></textarea>
     </div>
     <div class="input-group">
       <button type="submit" class="btn" name="check_price">CHECK PRICE</button>

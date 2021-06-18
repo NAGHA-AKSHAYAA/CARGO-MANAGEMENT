@@ -9,11 +9,16 @@
   <br>
       <a style="text-decoration:none"class="btn" href="truckdetails/read.php" style="text-decoration:none">TRUCK DETAILS</a>
       <br><br><br>
-      <a style="text-decoration:none" class="btn" href="driverdetails.php"  style="text-decoration:none" >DRIVER DETAILS</a>
+      <a style="text-decoration:none" class="btn" href="driverdetails/read.php"  style="text-decoration:none" >DRIVER DETAILS</a>
       <br><br><br>
-      <a  style="text-decoration:none" class="btn" href="customerdetails.php"  style="text-decoration:none" >CUSTOMER DETAILS</a>
+      <a  style="text-decoration:none" class="btn" href="customerdetails/read.php"  style="text-decoration:none" >CUSTOMER DETAILS</a>
       <br><br><br>
-      <a style="text-decoration:none" class="btn" href="bookingdetails.php">BOOKING DETAILS</a>
+      <a style="text-decoration:none" class="btn" href="bookingdetails/read.php">BOOKING DETAILS</a>
+			<br><br><br>
+			<a style="text-decoration:none" href="/project/login.php">Log Out</a>
+
+
+
 </div>
 </style>
 </body>

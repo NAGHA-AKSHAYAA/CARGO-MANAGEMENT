@@ -213,17 +213,16 @@ if (isset($_POST['place_order']))
             }
             else
             {
-
-                /**$query = "SELECT * FROM booking where truck_id='$truck_no'and end_date>'$pick_up_date'";
-                $result = mysqli_query($db, $query);
-                $user = mysqli_fetch_assoc($result);
-                if (mysqli_num_rows($result) == 0)
-                {
-                    $no = array();
-                    $no[] = $truck_no;
-                    $no[] = $preferred_time;
-                    $availability[] = $no;
-                }***/
+                // $query = "SELECT * FROM booking where truck_id='$truck_no'and end_date>'$pick_up_date'";
+                // $result = mysqli_query($db, $query);
+                // $user = mysqli_fetch_assoc($result);
+                // if (mysqli_num_rows($result) == 0)
+                // {
+                //     $no = array();
+                //     $no[] = $truck_no;
+                //     $no[] = $preferred_time;
+                //     $availability[] = $no;
+                // }
                 $query= "SELECT * FROM `booking` WHERE truck_id='$truck_no' and start_date>'$pick_up_date' and start_date<'$drop_date'";
                 $result = mysqli_query($db, $query);
                 $user = mysqli_fetch_assoc($result);
@@ -310,8 +309,14 @@ if (isset($_POST['check_price']))
     $slots = mysqli_real_escape_string($db, $_POST['available_time']);
     $pick_up_time = substr($slots, 11, 15);
     $vehicle_id = substr($slots, 0, 9);
+    $_SESSION['vehicle_id'] = $vehicle_id;
+    $_SESSION['pick_up_time'] = $pick_up_time;
     $drop_time = mysqli_real_escape_string($db, $_POST['drop_time']);
+    $_SESSION['drop_time'] = $drop_time;
     $address = mysqli_real_escape_string($db, $_POST['location_address']);
+    $drop_address = mysqli_real_escape_string($db, $_POST['drop_address']);
+    $_SESSION['address'] = $address;
+    $_SESSION['drop_address'] = $drop_address;
     if (empty($slots))
     {
         array_push($errors, "choose an available truck");
@@ -324,18 +329,14 @@ if (isset($_POST['check_price']))
     {
         array_push($errors, "pick up point is required");
     }
-    //header('location:price.php');
-
-}
-
-//inserting bookingdetails into database
-if (isset($_POST['check_price']))
-{
+    // $_SESSION['pickuptime'] = $pick_up_date;
+    // $_SESSION['droptime'] = $drop_time;
+    // header('location:price.php');
     $result = mysqli_query($db, "SELECT MAX(booking_id) AS maximum FROM booking");
     $row = mysqli_fetch_assoc($result);
     $booking_id = $row['maximum'] + 1;
 
-    //printing to check if its entered properly
+    // printing to check if its entered properly
     echo $_SESSION['user_id'];
     echo "<br>";
     echo $booking_id;
@@ -365,12 +366,101 @@ if (isset($_POST['check_price']))
     $picloc = $_SESSION['pick_up_loc'];
     $droploc = $_SESSION['drop_loc'];
 
+    // echo($drop_time);
+    // echo($pick_up_time);
+    $date1 = $pdate." ".$pick_up_time.":00";
+    $date2 = $ddate." ".$drop_time.":00";
+    $timestamp1 = strtotime($date1);
+    $timestamp2 = strtotime($date2);
+    $hour = abs($timestamp2 - $timestamp1)/(60*60);
+    $price;
+    $amount;
+    if(!strcmp($ctruck,"32 FEET SINGLE AXEL TRUCK (7.5 TON CAPACITY) [CONTAINER TRUCK]")){
+        $price = 150;
+        $amount = $hour*$price;
+    }elseif(!strcmp($ctruck,"32 FEET MULTI AXEL TRUCK (16 TON CAPACITY) [CONTAINER TRUCK]")){
+        $price = 200;
+        $amount = $hour*$price;
+    }elseif(!strcmp($ctruck,"24 FEET SINGLE AXEL TRUCK (7.5 TON CAPACITY) [CONTAINER TRUCK]")){
+     $price = 100;
+     $amount = $hour*$price;
+    }
+    echo($hour);
+    echo "<br>";
+    echo($amount);
+    $_SESSION['hour'] = $hour;
+    $_SESSION['price'] = $price;
+    $_SESSION['price_of_order'] = $amount;
+    header('location:transaction.php');
+    // 32 FEET MULTI AXEL TRUCK (16 TON CAPACITY) [CONTAINER TRUCK]
+    // 24 FEET SINGLE AXEL TRUCK (7.5 TON CAPACITY) [CONTAINER TRUCK]
+
+
     // Finally, inserting all the details inside in the database after confirmation
-    $query = "INSERT INTO booking(user_id,booking_id,start_date,end_date,pick_up_time,drop_time,pick_up_location,drop_location,goods_type,truck,truck_id,pick_up_point)VALUES($uid,$booking_id,'$pdate','$ddate','$pick_up_time','$drop_time','$picloc','$droploc','$gtype','$ctruck','$vehicle_id','$address')";
-    echo $query;
+    // $query = "INSERT INTO booking(user_id,booking_id,start_date,end_date,pick_up_time,drop_time,pick_up_location,drop_location,goods_type,truck,truck_id,pick_up_point)VALUES($uid,$booking_id,'$pdate','$ddate','$pick_up_time','$drop_time','$picloc','$droploc','$gtype','$ctruck','$vehicle_id','$address')";
+    // echo $query;
     //$query = "INSERT INTO booking (drop_time,booking_id,user_id)
     //VALUES('$drop_time','$booking_id','$_SESSION['user_id']')";
+    // mysqli_query($db, $query);
+}
+if (isset($_POST['completedTransaction'])){
+    $result = mysqli_query($db, "SELECT MAX(booking_id) AS maximum FROM booking");
+    $row = mysqli_fetch_assoc($result);
+    $booking_id = $row['maximum'] + 1;
+    $final_amount = $_SESSION['price_of_order'];
+    $uid = $_SESSION['user_id'];
+    $pdate = $_SESSION['pick_up_date'];
+    $ddate = $_SESSION['drop_date'];
+    $gtype = $_SESSION['good_type'];
+    $ctruck = $_SESSION['choosen_truck'];
+    $picloc = $_SESSION['pick_up_loc'];
+    $droploc = $_SESSION['drop_loc'];
+    $vehicle_id = $_SESSION['vehicle_id'];
+    $q = mysqli_query($db,"SELECT driver_id from trucks where veh_reg='$vehicle_id'");
+    $driverid = mysqli_fetch_assoc($q);
+    $driver_id =  $driverid['driver_id'];
+
+
+// get the driver details
+
+  $driverq = mysqli_query($db,"SELECT name,phone_number FROM driver where driver_id='$driver_id'");
+
+  $details = mysqli_fetch_assoc($driverq);
+
+  $driver_name  = $details['name'];
+  $driver_number = $details['phone_number'];
+// echo($driver_name);
+// echo($driver_number);
+    $_SESSION['driver_id'] = $driverid;
+    $_SESSION['driver_name'] = $driver_name;
+    $_SESSION['driver_number'] = $driver_number;
+
+// end of driver Details
+
+    $pick_up_time = $_SESSION['pick_up_time'];
+    $drop_time = $_SESSION['drop_time'];
+    $address = $_SESSION['address'];
+    $drop_address = $_SESSION['drop_address'];
+
+    // Finally, inserting all the details inside in the database after confirmation
+
+
+    $query = "INSERT INTO booking(user_id,booking_id,start_date,end_date,pick_up_time,driver_id,drop_time,pick_up_location,drop_location,goods_type,truck,truck_id,pick_up_point,drop_point,status,amount)VALUES('$uid',$booking_id,'$pdate','$ddate','$pick_up_time','$driver_id','$drop_time','$picloc','$droploc','$gtype','$ctruck','$vehicle_id','$address','$drop_address','not completed','$final_amount')";
+    echo $query;
     mysqli_query($db, $query);
+    header("Location:billing.php");
+}
+
+if(isset($_POST['goTohome'])){
+    header("Location:welcome.php");
+}
+
+if(isset($_POST['printInvoice'])){
+    header('location:invoice.php');
+}
+
+if(isset($_POST['goback'])){
+    header('location:billing.php');
 }
 
 ?>
